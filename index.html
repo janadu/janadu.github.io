@@ -104,11 +104,11 @@
   <body>
 
     <ion-pane>
-      <ion-content scroll="false" style="background-color: #060;">
+      <ion-content id="content" scroll="false" style="background-color: #060;">
     <div class="table">
       <div class="game-over" ng-show="gameOver() && !wellDone()"><h1>Game Over</h1><button ng-click="newGame()" onclick="$('ion-content').fireworks('destroy');">Play Again</button></div>
       <div class="well-done" ng-show="wellDone()"><h1>Well Done!</h1><button ng-click="newGame()" onclick="$('ion-content').fireworks('destroy');">Play Again</button></div>
-      <div class="stock">      
+      <div class="stock">   
         <div ng-repeat="card in stock.slice(-7)" style="position: absolute; left: {{2*$index}}px; top: {{-2*$index}}px;" class="card-back" ng-show="stock.length > 0" ng-click="flip(1)"></div>
         <div class="card-empty" ng-show="stock.length === 0"></div>
       </div>
@@ -138,7 +138,7 @@
           </div>
       </div>
     </div>
--->
+--> 
       </ion-content>
     </ion-pane>
 

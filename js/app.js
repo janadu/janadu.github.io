@@ -302,13 +302,15 @@ $scope.showAlert = function() {
 
   var rendertable = function () {
 
-    if (window.innerHeight/window.innerWidth > 1) { // Portrait
+    var ion_content = document.getElementById('content');
+    var statusBarHeight = screen.height - window.innerHeight;
 
-      $scope.cardWidthPortrait = Math.floor((window.innerWidth-60)/6);
+    if (ion_content.clientHeight/ion_content.clientWidth > 1) { // Portrait
+
+      $scope.cardWidthPortrait = Math.floor((ion_content.clientWidth-60)/6);
       $scope.cardHeightPortrait = Math.floor(1.53 * $scope.cardWidthPortrait);
-      $scope.tableHeightPortrait = window.innerHeight;
-      $scope.pyramidTopPortrait = window.innerHeight/4;
-      $scope.pyramidLeftPortrait = window.innerWidth/2 - $scope.cardWidthPortrait/2;
+      $scope.pyramidTopPortrait = ion_content.clientHeight/4;
+      $scope.pyramidLeftPortrait = ion_content.clientWidth/2 - $scope.cardWidthPortrait/2;
 
     var winc = ($scope.cardWidthPortrait/2)+4;
     var hinc = $scope.cardHeightPortrait/3;
@@ -320,11 +322,10 @@ $scope.showAlert = function() {
       }
     }
 
-      $scope.cardHeightLandscape = Math.floor(window.innerWidth/3.5);
+      $scope.cardHeightLandscape = Math.floor((ion_content.clientWidth-statusBarHeight)/3.5);
       $scope.cardWidthLandscape = Math.floor($scope.cardHeightLandscape/1.53);
-      $scope.tableHeightLandscape = window.innerWidth -25; 
-      $scope.pyramidTopLandscape = window.innerWidth/9; 
-      $scope.pyramidLeftLandscape = window.innerHeight/2 - $scope.cardWidthLandscape/2;
+      $scope.pyramidTopLandscape = (ion_content.clientWidth)/7; 
+      $scope.pyramidLeftLandscape = (ion_content.clientHeight+statusBarHeight)/2 - $scope.cardWidthLandscape/2;
 
     var winc = ($scope.cardWidthLandscape/2)+4;
     var hinc = $scope.cardHeightLandscape/3;
@@ -338,10 +339,10 @@ $scope.showAlert = function() {
     
     } else { // Landscape
 
-      $scope.cardWidthPortrait = Math.floor((window.innerHeight-60)/6);
+      $scope.cardWidthPortrait = Math.floor((ion_content.clientHeight-60+statusBarHeight)/6);
       $scope.cardHeightPortrait = Math.floor(1.53 * $scope.cardWidthPortrait);
-      $scope.pyramidTopPortrait = window.innerWidth/4;
-      $scope.pyramidLeftPortrait = window.innerHeight/2 - $scope.cardWidthPortrait/2;
+      $scope.pyramidTopPortrait = ion_content.clientWidth/4;
+      $scope.pyramidLeftPortrait = (ion_content.clientHeight+statusBarHeight)/2 - $scope.cardWidthPortrait/2;
 
     var winc = ($scope.cardWidthPortrait/2)+4;
     var hinc = $scope.cardHeightPortrait/3;
@@ -353,10 +354,10 @@ $scope.showAlert = function() {
       }
     }
 
-      $scope.cardHeightLandscape = Math.floor(window.innerHeight/3.5);
+      $scope.cardHeightLandscape = Math.floor(ion_content.clientHeight/3.5);
       $scope.cardWidthLandscape = Math.floor($scope.cardHeightLandscape/1.53);
-      $scope.pyramidTopLandscape = window.innerHeight/7; 
-      $scope.pyramidLeftLandscape = window.innerWidth/2 - $scope.cardWidthLandscape/2;
+      $scope.pyramidTopLandscape = ion_content.clientHeight/7; 
+      $scope.pyramidLeftLandscape = ion_content.clientWidth/2 - $scope.cardWidthLandscape/2;
 
     var winc = ($scope.cardWidthLandscape/2)+4;
     var hinc = $scope.cardHeightLandscape/3;
@@ -369,8 +370,6 @@ $scope.showAlert = function() {
     }
     }
     
-    //alert(window.innerHeight + " " +window.innerWidth);
-
   };
   
   $scope.newGame();
