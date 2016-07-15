@@ -23,7 +23,36 @@ angular.module('starter', ['ionic'])
   });
 })
 
-.controller('GameCtrl', function ($scope, $ionicPopup) {
+.config(function($stateProvider, $urlRouterProvider) {
+
+  // Ionic uses AngularUI Router which uses the concept of states
+  // Learn more here: https://github.com/angular-ui/ui-router
+  // Set up the various states which the app can be in.
+  // Each state's controller can be found in controllers.js
+  $stateProvider
+
+  .state('game', {
+    url: '/',
+    templateUrl: 'templates/game.html',
+    controller: 'GameCtrl'
+  })
+
+  .state('score', {
+    url: '/score/:points',
+    templateUrl: 'templates/score.html',
+    controller: 'ScoreCtrl'
+  });
+
+  // if none of the above states are matched, use this as the fallback
+  $urlRouterProvider.otherwise('/');
+
+})
+
+.controller('ScoreCtrl', function($scope, $stateParams) {
+  $scope.points = $stateParams.points;
+})
+
+.controller('GameCtrl', function ($scope) {
 
   Array.prototype.last = function () {
     return this[this.length - 1];
@@ -97,6 +126,7 @@ angular.module('starter', ['ionic'])
     }
 
     $scope.move.push($scope.waste.pop());
+    $scope.points = $scope.points + 2;
     $scope.selected = null;
     $scope.selectedFrom = null;
   };
