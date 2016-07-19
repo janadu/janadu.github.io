@@ -75,28 +75,28 @@
 
     </style>
 
-      <ion-content id="content" scroll="false" style="background-image: url('img/tapete.png');">
+      <ion-content id="content" scroll="false" style="background-image: url('img/tapete.png');" ng-click="showActionsheet()">
     <div class="table">
-      <div class="score"><a href="#/score/{{move.length}}"> Points: {{move.length}} </a></div>
-      <div class="game-over" ng-show="gameOver() && !wellDone()"><h1>Game Over</h1><button ng-click="newGame()" onclick="$('ion-content').fireworks('destroy');">Play Again</button></div>
-      <div class="well-done" ng-show="wellDone()"><h1>Well Done!</h1><button ng-click="newGame()" onclick="$('ion-content').fireworks('destroy');">Play Again</button></div>
+      <div class="score">Puntos: {{move.length}}</div>
+      <div class="game-over" ng-show="gameOver() && !wellDone()"><h1>Game Over</h1><button ng-click="newGame(); $event.stopPropagation();" onclick="$('ion-content').fireworks('destroy');">Play Again</button></div>
+      <div class="well-done" ng-show="wellDone()"><h1>Well Done!</h1><button ng-click="newGame(); $event.stopPropagation();" onclick="$('ion-content').fireworks('destroy');">Play Again</button></div>
       <div class="stock">   
-        <div ng-repeat="card in stock.slice(-7)" style="position: absolute; left: {{2*$index}}px; top: {{-2*$index}}px;" class="card-back" ng-show="stock.length > 0" ng-click="flip(1)"></div>
+        <div ng-repeat="card in stock.slice(-7)" style="position: absolute; left: {{2*$index}}px; top: {{-2*$index}}px;" class="card-back" ng-show="stock.length > 0" ng-click="flip(1); $event.stopPropagation();"></div>
         <div class="card-empty" ng-show="stock.length === 0"></div>
       </div>
       <div class="waste">
-        <div class="card-{{waste.last().suite}}-{{waste.last().val}}" ng-show="waste.length > 0" ng-click="(selected.val + waste.last().val === 10 && selected !== null && selected !== waste.last()) || (selected === waste.last() && waste.last().val === 10) ? moveSelectedToWaste() : selectWasteCard(waste.last())" ng-class="{active: waste.last() === selected, 'possible-target': (selected.val + waste.last().val === 10 && selected !== null && selected !== waste.last() && waste.length > 0) || (selected === waste.last() && waste.last().val === 10)}"></div>
+        <div class="card-{{waste.last().suite}}-{{waste.last().val}}" ng-show="waste.length > 0" ng-click="(selected.val + waste.last().val === 10 && selected !== null && selected !== waste.last()) || (selected === waste.last() && waste.last().val === 10) ? moveSelectedToWaste() : selectWasteCard(waste.last()); $event.stopPropagation();" ng-class="{active: waste.last() === selected, 'possible-target': (selected.val + waste.last().val === 10 && selected !== null && selected !== waste.last() && waste.length > 0) || (selected === waste.last() && waste.last().val === 10)}"></div>
         <div class="card-empty" ng-show="waste.length === 0"></div>        
       </div>
 	  <div class="trash">
-        <div class="card-{{trash.last().suite}}-{{trash.last().val}}" ng-show="trash.length > 0" ng-click="(selected.val + trash.last().val === 10 && selected !== null && selected !== trash.last()) || (selected === trash.last() && trash.last().val === 10) ? moveSelectedToTrash() : selectTrashCard(trash.last())" ng-class="{active: trash.last() === selected, 'possible-target': (selected.val + trash.last().val === 10 && selected !== null && selected !== trash.last() && trash.length > 0) || (selected === trash.last() && trash.last().val === 10)}"></div>
+        <div class="card-{{trash.last().suite}}-{{trash.last().val}}" ng-show="trash.length > 0" ng-click="(selected.val + trash.last().val === 10 && selected !== null && selected !== trash.last()) || (selected === trash.last() && trash.last().val === 10) ? moveSelectedToTrash() : selectTrashCard(trash.last()); $event.stopPropagation();" ng-class="{active: trash.last() === selected, 'possible-target': (selected.val + trash.last().val === 10 && selected !== null && selected !== trash.last() && trash.length > 0) || (selected === trash.last() && trash.last().val === 10)}"></div>
         <div class="card-empty" ng-show="trash.length === 0"></div>        
       </div>
       <div class="pyramid">
         <div class="pyramid-pyramid">
           <div ng-repeat="card in pyramid.cards" class="card-back pyramid-{{$index}}" ng-show="card.face === face.down">
           </div>
-          <div ng-repeat="card in pyramid.cards" class="card-{{card.suite + '-' + card.val + ' pyramid-' + $index}}" ng-show="card.face === face.up && pyramid.enabled[$index]" ng-click="(selected.val + card.val === 10 && selected !== null && selected !== card) || (selected === card && card.val === 10) ? moveSelectedToPyramid($index) : selectPyramidCard($index)" ng-class="{active: card === selected, 'possible-target': (selected.val + card.val === 10 && selected !== null && selected !== card) || (selected === card && card.val === 10)}">
+          <div ng-repeat="card in pyramid.cards" class="card-{{card.suite + '-' + card.val + ' pyramid-' + $index}}" ng-show="card.face === face.up && pyramid.enabled[$index]" ng-click="(selected.val + card.val === 10 && selected !== null && selected !== card) || (selected === card && card.val === 10) ? moveSelectedToPyramid($index) : selectPyramidCard($index); $event.stopPropagation();" ng-class="{active: card === selected, 'possible-target': (selected.val + card.val === 10 && selected !== null && selected !== card) || (selected === card && card.val === 10)}">
           </div>
         </div>
       </div> 

@@ -48,11 +48,16 @@ angular.module('starter', ['ionic'])
 
 })
 
-.controller('ScoreCtrl', function($scope, $stateParams) {
-  $scope.points = $stateParams.points;
+.controller('ScoreCtrl', function($scope, $stateParams, $window) {
+  $scope.points = $window.localStorage['Points'];
+  $scope.numPlayedGames = $window.localStorage['numPlayedGames'];
+  $scope.numFinishedGames = $window.localStorage['numFinishedGames'];
+  $scope.numWonGames = $window.localStorage['numWonGames'];
+  $scope.numLostGames = $window.localStorage['numLostGames'];
+  $scope.lastScores = JSON.parse($window.localStorage['lastScores']);
 })
 
-.controller('GameCtrl', function ($scope) {
+.controller('GameCtrl', function ($scope, $ionicActionSheet, $state, $window) {
 
   Array.prototype.last = function () {
     return this[this.length - 1];
@@ -186,17 +191,34 @@ angular.module('starter', ['ionic'])
     $scope.selectedFrom = null; 
   }
 
-$scope.showAlert = function() {
-   var alertPopup = $ionicPopup.alert({
-     title: 'Try again later!',
-     template: 'No Connection Found.'
-   });
- 
-   alertPopup.then(function(res) {
-     console.log('Thank you for advice.');
-   });
+  $scope.loadStorage = function() {
+    try {
+      $scope.numPlayedGames = parseInt($window.localStorage['numPlayedGames']);
+      $scope.numFinishedGames = parseInt($window.localStorage['numFinishedGames']);
+      $scope.numWonGames = parseInt($window.localStorage['numWonGames']);
+      $scope.numLostGames = parseInt($window.localStorage['numLostGames']);
+      $scope.lastScores = JSON.parse($window.localStorage['lastScores']);
+    }
+    catch(err) {
+      $scope.numPlayedGames = 0;
+      $scope.numFinishedGames = 0;
+      $scope.numWonGames = 0;
+      $scope.numLostGames = 0;
+      $scope.lastScores = [];
+    }
+  }
 
- };
+  $scope.saveStorage = function() {
+  }
+
+  $scope.updateStorage = function() {
+    $window.localStorage['Points'] = $scope.move.length;
+    $window.localStorage['numPlayedGames'] = $scope.numPlayedGames;
+    $window.localStorage['numFinishedGames'] = $scope.numFinishedGames;
+    $window.localStorage['numWonGames'] = $scope.numWonGames;
+    $window.localStorage['numLostGames'] = $scope.numLostGames;
+    $window.localStorage['lastScores'] = JSON.stringify($scope.lastScores.slice(0,10));
+  };
   
   $scope.gameOver = function() {
     var result = false;
@@ -223,6 +245,12 @@ $scope.showAlert = function() {
       if(!encontrado) {
         result = true;
         //angular.element('ion-content').fireworks();
+        if ($scope.gaming) {
+          $scope.numLostGames = $scope.numLostGames + 1;
+          $scope.lastScores.unshift($scope.move.length);
+          $scope.numFinishedGames = $scope.numFinishedGames + 1;
+          $scope.gaming = false;
+        }
       }
       else result = false;
     }
@@ -235,6 +263,12 @@ $scope.showAlert = function() {
     if ($scope.stock.length === 0 && $scope.waste.length === 0 && $scope.trash.length === 0 && $scope.pyramid.enabled[0] === 0) {
       result = true;
       angular.element('ion-content').fireworks();
+      if ($scope.gaming) {
+        $scope.numWonGames = $scope.numWonGames + 1;
+        $scope.lastScores.unshift("40");
+        $scope.numFinishedGames = $scope.numFinishedGames + 1;
+        $scope.gaming = false;
+      }
     } 
     return result;
   }
@@ -268,6 +302,9 @@ $scope.showAlert = function() {
         };
     $scope.move = [];
     $scope.check = [];
+    $scope.gaming = true;
+
+    $scope.numPlayedGames = $scope.numPlayedGames + 1;
 
     rendertable();
 
@@ -401,7 +438,8 @@ $scope.showAlert = function() {
     }
     
   };
-  
+
+  $scope.loadStorage();  
   $scope.newGame();
 
 /*    window.addEventListener("orientationchange", function() {
@@ -415,5 +453,33 @@ $scope.showAlert = function() {
 
     $scope.$apply();
 });*/
+
+  $scope.showActionsheet = function() {
+    
+    $ionicActionSheet.show({
+      titleText: 'Solitario Pirámide',
+      buttons: [
+        { text: '<i class="icon ion-refresh"></i> Nueva partida' },
+        { text: '<i class="icon ion-pie-graph"></i> Estadísticas' },
+        //{ text: '<i class="icon ion-settings"></i> Configuración' },
+      ],
+      cancelText: 'Cancelar',
+      cancel: function() {
+        console.log('CANCELLED');
+      },
+      buttonClicked: function(index) {
+        console.log('BUTTON CLICKED', index);
+        switch (index) {
+          case 0: $scope.newGame(); 
+                  break;
+          case 1: $scope.updateStorage();
+                  $state.go('score');
+                  break;
+        }
+
+        return true;
+      }
+    });
+  };
 
 });
