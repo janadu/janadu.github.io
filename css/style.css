@@ -1,6 +1,6 @@
 .table {padding: 1em; position: relative;}
 
-.score {float:right; margin-right: 2%; }
+.score {float:right; margin-right: 2%; color: #ccc }
 
 .game-over {position: relative; z-index: 100; border: 4px outset; background-color: #ff7; text-align: center; padding: 2em; margin-top:50%; margin-left: auto; margin-right: auto; width: 60%;}
 
