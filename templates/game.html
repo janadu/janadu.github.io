@@ -78,8 +78,8 @@
       <ion-content id="content" scroll="false" style="background-image: url('img/tapete.png');" ng-click="showActionsheet()">
     <div class="table">
       <div class="score">Puntos: {{move.length}}</div>
-      <div class="game-over" ng-show="gameOver() && !wellDone()"><h1>Game Over</h1><button ng-click="newGame(); $event.stopPropagation();" onclick="$('ion-content').fireworks('destroy');">Play Again</button></div>
-      <div class="well-done" ng-show="wellDone()"><h1>Well Done!</h1><button ng-click="newGame(); $event.stopPropagation();" onclick="$('ion-content').fireworks('destroy');">Play Again</button></div>
+      <div class="info-panel" ng-show="!wellDone() && gameOver()"><div class="game-over"><h1>Game Over</h1><button ng-click="newGame();  $event.stopPropagation();">Play Again</button></div></div>
+      <div id="firework" class="info-panel" ng-show="wellDone()"><div class="well-done"><h1>Well Done!</h1><button ng-click="newGame(); $event.stopPropagation();" onclick="$('div#firework').fireworks('destroy');">Play Again</button></div></div>
       <div class="stock">   
         <div ng-repeat="card in stock.slice(-7)" style="position: absolute; left: {{2*$index}}px; top: {{-2*$index}}px;" class="card-back" ng-show="stock.length > 0" ng-click="flip(1); $event.stopPropagation();"></div>
         <div class="card-empty" ng-show="stock.length === 0"></div>

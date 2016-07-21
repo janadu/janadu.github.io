@@ -244,7 +244,6 @@ angular.module('starter', ['ionic'])
       }
       if(!encontrado) {
         result = true;
-        //angular.element('ion-content').fireworks();
         if ($scope.gaming) {
           $scope.numLostGames = $scope.numLostGames + 1;
           $scope.lastScores.unshift($scope.move.length);
@@ -262,12 +261,12 @@ angular.module('starter', ['ionic'])
     var result = false;
     if ($scope.stock.length === 0 && $scope.waste.length === 0 && $scope.trash.length === 0 && $scope.pyramid.enabled[0] === 0) {
       result = true;
-      angular.element('ion-content').fireworks();
       if ($scope.gaming) {
         $scope.numWonGames = $scope.numWonGames + 1;
         $scope.lastScores.unshift("40");
         $scope.numFinishedGames = $scope.numFinishedGames + 1;
         $scope.gaming = false;
+        angular.element('div#firework').fireworks();
       }
     } 
     return result;
